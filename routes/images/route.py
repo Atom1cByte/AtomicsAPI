@@ -15,6 +15,7 @@ console = Console()
 async def ping(top_text: str, bottom_text: str) -> dict:
     gif = generate_sus(top_text, bottom_text)
     gif.seek(0)
+    console.log(f'[IMAGES] User generated sussy image with top text "{top_text}" and bottom text "{bottom_text}"')
     return StreamingResponse(gif, media_type="image/png")
 
 # --- Helpers --- #
@@ -27,18 +28,23 @@ def generate_sus(top_text: str, bottom_text: str) -> BytesIO:
     for frame in ImageSequence.Iterator(im):
         frame = frame.convert("RGBA")
         txt = Image.new('RGBA', frame.size, (255,255,255,0))
-        font = ImageFont.truetype("media\\fonts\\Oswald-Regular.ttf", 25)
+        top_size = 25
+        bottom_size = 25
+        font_top = ImageFont.truetype("media\\fonts\\Oswald-Regular.ttf", top_size)
+        font_bottom = ImageFont.truetype("media\\fonts\\Oswald-Regular.ttf", bottom_size)
         d = ImageDraw.Draw(txt)
-        w_top, _ = d.textsize(top_text, font=font)
-        if w_top > W:
-            font = ImageFont.truetype("media\\fonts\\Oswald-Regular.ttf", W-15/len(top_text))
-            w_top, _ = d.textsize(top_text, font=font)
-        w_bottom, _ = d.textsize(bottom_text, font=font)
-        if w_bottom > W:
-            font = ImageFont.truetype("media\\fonts\\Oswald-Regular.ttf", W-15/len(top_text))
-            w_bottom, _ = d.textsize(top_text, font=font)
-        d.text(((W-w_top)/2,10), top_text, fill=(0, 0, 0, transparency), font=font)
-        d.text(((W-w_bottom)/2,150), bottom_text, fill=(0, 0, 0, transparency), font=font)
+        w_top, _ = d.textsize(top_text, font=font_top)
+        while w_top > W-7:
+            top_size -= 1
+            font_top = ImageFont.truetype("media\\fonts\\Oswald-Regular.ttf", top_size)
+            w_top, _ = d.textsize(top_text, font=font_top)
+        w_bottom, _ = d.textsize(bottom_text, font=font_bottom)
+        while w_bottom > W-7:
+            bottom_size -= 1
+            font_bottom = ImageFont.truetype("media\\fonts\\Oswald-Regular.ttf", bottom_size)
+            w_bottom, _ = d.textsize(top_text, font=font_bottom)
+        d.text(((W-w_top)/2,10), top_text, fill=(0, 0, 0, transparency), font=font_top)
+        d.text(((W-w_bottom)/2,150), bottom_text, fill=(0, 0, 0, transparency), font=font_bottom)
         combined = Image.alpha_composite(frame, txt)
         frames.append(combined)
         if transparency < 256: 
