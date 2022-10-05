@@ -21,7 +21,7 @@ async def ping(top_text: str, bottom_text: str) -> dict:
 # --- Helpers --- #
 
 def generate_sus(top_text: str, bottom_text: str) -> BytesIO:
-    im = Image.open("media\\gifs\\sussy.gif")
+    im = Image.open("media\gif\sus.gif")
     W, H = im.size
     frames = []
     transparency = 0
