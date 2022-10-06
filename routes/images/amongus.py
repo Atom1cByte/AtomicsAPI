@@ -1,4 +1,6 @@
+import os
 from io import BytesIO
+from select import error
 from PIL import Image, ImageSequence, ImageDraw, ImageFont
 from fastapi import APIRouter, Request
 from starlette.responses import StreamingResponse
@@ -21,6 +23,7 @@ async def ping(top_text: str, bottom_text: str) -> dict:
 # --- Helpers --- #
 
 def generate_sus(top_text: str, bottom_text: str) -> BytesIO:
+    raise TypeError(os.listdir("."))
     im = Image.open("media\gif\sus.gif")
     W, H = im.size
     frames = []
