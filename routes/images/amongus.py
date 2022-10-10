@@ -3,7 +3,7 @@ from io import BytesIO
 from select import error
 from PIL import Image, ImageSequence, ImageDraw, ImageFont
 from fastapi import APIRouter, Request
-from starlette.responses import StreamingResponse
+from starlette.responses import FileResponse
 from rich.console import Console
 
 # --- Constants --- #
@@ -18,7 +18,7 @@ async def ping(top_text: str, bottom_text: str) -> dict:
     gif = generate_sus(top_text, bottom_text)
     gif.seek(0)
     console.log(f'[IMAGES] User generated sussy image with top text "{top_text}" and bottom text "{bottom_text}"')
-    return StreamingResponse(gif, media_type="image/png")
+    return FileResponse(gif, media_type="image/png")
 
 # --- Helpers --- #
 
