@@ -23,8 +23,7 @@ async def ping(top_text: str, bottom_text: str) -> dict:
 # --- Helpers --- #
 
 def generate_sus(top_text: str, bottom_text: str) -> BytesIO:
-    raise TypeError(os.listdir("."))
-    im = Image.open("media\gif\sus.gif")
+    im = Image.open("media/gif/sus.gif")
     W, H = im.size
     frames = []
     transparency = 0
@@ -33,8 +32,8 @@ def generate_sus(top_text: str, bottom_text: str) -> BytesIO:
         txt = Image.new('RGBA', frame.size, (255,255,255,0))
         top_size = 25
         bottom_size = 25
-        font_top = ImageFont.truetype("media\\fonts\\Oswald-Regular.ttf", top_size)
-        font_bottom = ImageFont.truetype("media\\fonts\\Oswald-Regular.ttf", bottom_size)
+        font_top = ImageFont.truetype("media/fonts/Oswald-Regular.ttf", top_size)
+        font_bottom = ImageFont.truetype("media/fonts/Oswald-Regular.ttf", bottom_size)
         d = ImageDraw.Draw(txt)
         w_top, _ = d.textsize(top_text, font=font_top)
         while w_top > W-7:
